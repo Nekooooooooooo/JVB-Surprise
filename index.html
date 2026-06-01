@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Can I court you?</title>
+    <link type="image/png" sizes="16x16" rel="icon" href="assets/icons8-heart-color-glass-16.png">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cute+Font&display=swap');
+        body {
+            font-family: "Love Ya Like A Sister", cursive;
+            font-weight: 400;
+            font-style: normal;
+            background: rgb(17, 120, 151);
+            background: linear-gradient(45deg, rgb(152, 255, 161) 0%, rgb(61, 202, 96) 23%, rgb(37, 127, 150) 66%, rgb(27, 29, 158) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .message {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .title {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        img {
+        width: 350px;
+        height: auto;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 2.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 150px;
+        }
+
+        .modal-content {
+            text-align: center;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        footer {
+            background: transparent;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                overflow: hidden;
+            }
+            .message {
+                font-size: 2.5em;
+            }
+            .button {
+                padding: 8px 16px;
+                font-size: 1em;
+            }
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="title" id="marryText">Can I court you?</div>
+    <img src="assets/please.gif" alt="Love Wall" class="img-fluid" id="loveImage"><br>
+    <div class="message"> ❤️ </div>
+    <div class="button-container">
+        <button class="btn btn-success button yes">Yes</button>
+        <button class="btn btn-danger button no">No</button>
+    </div>
+    <audio id="loveSong" src="assets/winning.mp3" preload="auto"></audio>
+</div>
+
+<div class="modal fade" id="noInspectModal" tabindex="-1" role="dialog" aria-labelledby="noInspectModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h5>No Page Sourcing & Inspect!</h5>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+const yesButton = document.querySelector('.yes');
+const noButton = document.querySelector('.no');
+const message = document.querySelector('.message');
+const loveImage = document.getElementById('loveImage');
+const loveSong = document.getElementById('loveSong');
+const marryText = document.getElementById('marryText');
+
+const noMessages = [
+    'Sure ka lan talaga?',
+    'Bakit?',
+    'Pls?',
+    'Sure na talga?',
+    'Come on, say yes pls!',
+    'huhu',
+    'Don\'t be shy!',
+    'Ayaw talaga?',
+    'Give me chance.',
+    'Please consider it!'
+];
+
+let noClickCount = 0;
+
+yesButton.addEventListener('click', () => {
+    marryText.style.display = 'none';
+    yesButton.style.display = 'none'; 
+    noButton.style.display = 'none';
+    message.textContent = 'Let\'s go!';
+    loveImage.src = 'assets/yes.gif';
+    loveSong.play();
+});
+
+noButton.addEventListener('click', () => {
+    if (loveSong.paused === false) {
+        loveSong.pause();
+    }
+
+    if (noClickCount < 10) {
+        message.textContent = noMessages[noClickCount];
+        noClickCount++;
+        loveImage.src = `assets/sad${Math.min(noClickCount, 10)}.gif`;
+        moveButton();
+    }
+
+    if (noClickCount === 10) {
+        noButton.style.display = 'none';
+        message.textContent = 'Your only choice is YES! HAHA.';
+    }
+});
+
+const moveButton = () => {
+    const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+    const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+    noButton.style.position = 'absolute';
+    noButton.style.left = `${x}px`;
+    noButton.style.top = `${y}px`;
+};
+
+document.addEventListener('contextmenu', event => {
+    event.preventDefault();
+    $('#noInspectModal').modal('show');
+});
+
+document.addEventListener('keydown', event => {
+    if (event.key === 'F12') {
+        event.preventDefault();
+        $('#noInspectModal').modal('show');
+    }
+});
+</script>
+
+</body>
+</html>
