@@ -8,20 +8,92 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cute+Font&display=swap');
-        body {
-            font-family: "Love Ya Like A Sister", sans-serif;
-            font-weight: 400;
-            font-style: normal;
-            background: rgb(17, 120, 151);
-            background: linear-gradient(45deg, rgb(152, 255, 161) 0%, rgb(61, 202, 96) 23%, rgb(37, 127, 150) 66%, rgb(27, 29, 158) 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
-            overflow: hidden;
-            flex-direction: column;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(to top right, #3643ff, #ffd1dc);
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      position: relative;
+    }
+
+    #content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      z-index: 5;
+    }
+
+    .question {
+      font-size: 2.5rem;
+      color: black; /* text color black */
+      text-shadow: 1px 1px 2px #974aa1;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: showQuestion 2s forwards;
+      padding: 20px;
+      max-width: 90%;
+    }
+
+    @keyframes showQuestion {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .heart {
+      width: 20px;
+      height: 20px;
+      background-color: rgb(255, 0, 0);
+      position: absolute;
+      top: 100%;
+      transform: rotate(-45deg);
+      animation: floatUp 8s linear infinite;
+      opacity: 0;
+      z-index: 0;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      width: 20px;
+      height: 20px;
+      background-color: rgb(255, 0, 0);
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 10px;
+      top: 0;
+    }
+
+    @keyframes floatUp {
+      0% {
+        top: 100%;
+        opacity: 0;
+        transform: translateX(0) translateY(0) rotate(-45deg) scale(0.5);
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        top: -10%;
+        transform: translateX(0) translateY(-100vh) rotate(360deg) scale(1.2);
+        opacity: 0;
+      }
+    }
 
         .container {
             text-align: center;
@@ -30,15 +102,23 @@
         }
 
         .message {
-            font-size: 2em;
+                       font-size: 3em;
             margin-bottom: 20px;
-            color: white;
+            color: rgb(255, 255, 255); /* text color black */
+      text-shadow: 1px 1px 2px #ff69b4;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: showQuestion 2s forwards;
         }
         
         .title {
             font-size: 3em;
             margin-bottom: 20px;
-            color: white;
+            color: rgb(255, 255, 255); /* text color black */
+      text-shadow: 1px 1px 2px #ff69b4;
+      opacity: 0;
+      transform: scale(0.8);
+      animation: showQuestion 2s forwards;
         }
 
         img {
@@ -47,13 +127,20 @@
         }
 
         .button {
-            padding: 10px 20px;
-            font-size: 2.2em;
-            cursor: pointer;
-            border-radius: 5px;
-            width: 100%;
-            max-width: 150px;
+      margin-top: 30px;
+      padding: 10px 30px;
+      background: #ff4d6d;
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      box-shadow: 2px 2px 10px #ff8fa3;
+      transition: transform 0.3s;
         }
+            button:hover {
+      transform: scale(1.1);
+    }
 
         .modal-content {
             text-align: center;
@@ -74,16 +161,7 @@
             max-width: 100%;
             height: auto;
         }
-
-        footer {
-            background: transparent;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-        }
+        
 
         @media (max-width: 600px) {
             body {
@@ -108,7 +186,7 @@
     <img src="assets/please.gif" alt="Love Wall" class="img-fluid" id="loveImage"><br>
     <div class="message"> ❤️ </div>
     <div class="button-container">
-        <button class="btn btn-success button yes">Yes</button>
+        <button class="btn btn-danger button yes">Yes</button>
         <button class="btn btn-danger button no">No</button>
     </div>
     <audio id="loveSong" src="assets/winning.mp3" preload="auto"></audio>
@@ -200,6 +278,15 @@ document.addEventListener('keydown', event => {
         $('#noInspectModal').modal('show');
     }
 });
+
+  for (let i = 0; i < 30; i++) {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+    heart.style.animationDelay = (Math.random() * 5) + 's';
+    document.body.appendChild(heart);
+  }
 </script>
 
 </body>
